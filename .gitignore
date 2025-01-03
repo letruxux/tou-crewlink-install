@@ -170,6 +170,5 @@ cython_debug/
 # PyPI configuration file
 .pypirc
 
-CrewLink.exe
-town_of_us.zip
-tou.zip
+installs/
+game/

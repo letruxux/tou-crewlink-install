@@ -1,10 +1,18 @@
 import logging
 import tkinter as tk
+import ctypes
 from tkinter import ttk, scrolledtext, messagebox
 import threading
 from constants import *
 from utils import LogTextHandler
-from installers import install_crewlink, install_town_of_us
+from installers import install_aunlocker, install_crewlink, install_town_of_us
+
+try:
+    ctypes.windll.shcore.SetProcessDpiAwareness(1)
+except:
+    pass
+
+FONT = "Calibri"
 
 logging.basicConfig(
     level=logging.INFO,
@@ -24,8 +32,11 @@ class ModInstallerGUI:
         self.root.title("Among Us Mod Installer")
         self.root.geometry(f"{WINDOW_WIDTH}x{WINDOW_HEIGHT}")
 
+        default_font = (FONT, 12)
+        self.root.option_add("*Font", default_font)
+
         style = ttk.Style()
-        style.configure("AccentButton.TButton", font=("Helvetica", 12, "bold"))
+        style.configure("AccentButton.TButton", font=(*default_font, "bold"))
 
     def create_widgets(self) -> None:
         self.frame = ttk.Frame(self.root, padding="20")
@@ -37,16 +48,22 @@ class ModInstallerGUI:
 
         self.tou_var = tk.BooleanVar(value=True)
         self.crewlink_var = tk.BooleanVar(value=True)
+        self.aunlocker_var = tk.BooleanVar(value=True)
 
         ttk.Checkbutton(
             self.frame, text="Town of Us", variable=self.tou_var, state="disabled"
         ).pack(pady=5)
         ttk.Checkbutton(
-            self.frame, text="Better CrewLink", variable=self.crewlink_var
+            self.frame,
+            text="Better CrewLink",
+            variable=self.crewlink_var,
         ).pack(pady=5)
+        ttk.Checkbutton(self.frame, text="AUnlocker", variable=self.aunlocker_var).pack(
+            pady=5
+        )
 
         self.log_display = scrolledtext.ScrolledText(
-            self.frame, width=60, height=10, font=("Consolas", 9), wrap=tk.WORD
+            self.frame, width=60, height=10, font=(FONT, 12), wrap=tk.WORD
         )
         self.log_display.pack(pady=10, fill=tk.BOTH, expand=True)
 
@@ -73,10 +90,14 @@ class ModInstallerGUI:
         try:
             if self.crewlink_var.get():
                 install_crewlink()
+
             install_town_of_us()
+            if self.aunlocker_var.get():
+                install_aunlocker()
             self.root.after(0, self.installation_complete)
         except Exception as e:
-            self.root.after(0, lambda: self.installation_failed(str(e)))
+            err = str(e)
+            self.root.after(0, lambda: self.installation_failed(err))
 
     def installation_complete(self) -> None:
         messagebox.showinfo(
