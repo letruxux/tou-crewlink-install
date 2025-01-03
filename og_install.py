@@ -32,6 +32,7 @@ def find_installation():
         # steam
         r"D:\SteamLibrary\steamapps\common\Among Us",
         r"C:\SteamLibrary\steamapps\common\Among Us",
+        r"C:\Program Files (x86)\Steam\steamapps\common\Among Us",
         # egs (non so se esistono)
         r"C:\Program Files\Epic Games\AmongUs",
         r"C:\Program Files\Epic Games\Among Us",
