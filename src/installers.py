@@ -90,7 +90,7 @@ def install_aunlocker() -> None:
         shutil.move(AUNLOCKER_DLL, bepinex_plugins)
         logging.info("AUnlocker installed successfully")
 
-        with open(bepinex_cfg, "w") as f:
+        with open(os.path.join(bepinex_cfg, "AUnlocker.cfg"), "w") as f:
             f.write(aunlocker_cfg)
 
         logging.info("AUnlocker config applied successfully")

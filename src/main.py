@@ -94,6 +94,9 @@ class ModInstallerGUI:
             install_town_of_us()
             if self.aunlocker_var.get():
                 install_aunlocker()
+
+            os.startfile(AMONGUS_MODDED_PATH)
+
             self.root.after(0, self.installation_complete)
         except Exception as e:
             err = str(e)
