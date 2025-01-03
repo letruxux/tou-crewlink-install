@@ -106,6 +106,7 @@ class ModInstallerGUI:
         messagebox.showinfo(
             "Success", "Installation completed successfully. open Among Us.exe"
         )
+        os.rmdir(INSTALLS_DIR)
         self.root.quit()
 
     def installation_failed(self, error_message: str) -> None:
