@@ -11,6 +11,7 @@ from github import (
     get_latest_tou_zip_url,
 )
 from og_install import find_installation
+from aunlockerconfig import aunlocker_cfg
 
 
 def download_file(url: str, destination: str, component_name: str) -> None:
@@ -80,7 +81,16 @@ def install_aunlocker() -> None:
         url = get_latest_aunlocker_url()
         download_file(url, AUNLOCKER_DLL, "AUnlocker")
 
-        dst = os.path.join(AMONGUS_MODDED_PATH, "BepInEx", "plugins")
-        os.makedirs(dst, exist_ok=True)
-        shutil.move(AUNLOCKER_DLL, dst)
+        bepinex_dir = os.path.join(AMONGUS_MODDED_PATH, "BepInEx")
+        bepinex_plugins = os.path.join(bepinex_dir, "plugins")
+        bepinex_cfg = os.path.join(bepinex_dir, "config")
+        os.makedirs(bepinex_plugins, exist_ok=True)
+        os.makedirs(bepinex_cfg, exist_ok=True)
+
+        shutil.move(AUNLOCKER_DLL, bepinex_plugins)
         logging.info("AUnlocker installed successfully")
+
+        with open(bepinex_cfg, "w") as f:
+            f.write(aunlocker_cfg)
+
+        logging.info("AUnlocker config applied successfully")
